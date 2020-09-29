@@ -3,7 +3,7 @@
 <%
 	if(session.getAttribute("loginMemberEmail") != null) {
 		System.out.println("이미 로그인 되어있습니다.");
-		response.sendRedirect(request.getContextPath()+"/login.jsp");
+		response.sendRedirect(request.getContextPath()+"/index.jsp");
 		return;
 	}
 %>    
@@ -21,11 +21,11 @@
 		<table class="table-bordered">
 			<tr>
 				<td>ID</td>
-				<td><input type="text" name="memberEmail"></td>
+				<td><input type="text" name="memberEmail" value="hello"></td>
 			</tr>
 			<tr>
 				<td>PW</td>
-				<td><input type="text" name="memberPw"></td>
+				<td><input type="text" name="memberPw" value="hi"></td>
 			</tr>
 		</table>
 		<button class="btn btn-primary" type="submit" >LOGIN</button>

@@ -23,6 +23,9 @@
 	Notice notice = new NoticeDao().selectNoticeOne(noticeId); 
 	
 %>
+	<div>
+		<jsp:include page="/inc/menu.jsp"></jsp:include>
+	</div>
 	<h1>공지 내용</h1>
 	<table class="table table-striped table-hover table-bordered">
 		<tr>

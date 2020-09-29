@@ -21,6 +21,9 @@
 		OrdersDao ordersDao = new OrdersDao();
 		ArrayList<OrdersAndProduct> list = ordersDao.selectOrdersListByEmail(memberEmail);
 	%>
+	<div>
+		<jsp:include page="/inc/menu.jsp"></jsp:include>
+	</div>
 	<h1>내 주문 목록</h1>
 	<table class="table">
 		<thead>

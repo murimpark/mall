@@ -50,4 +50,24 @@ public class MemberDao {
 		conn.close();
 		return member;
 	}
-}
+	
+	public Member selectMemberMyInform(String memberEmail) throws Exception { // 로그인한 아이디 정보 불러오기
+		Member member = null;
+		DBUtil dbUtil = new DBUtil();
+		Connection conn = dbUtil.getConnection();
+		String sql = "select member_email, member_pw, member_name, member_date from member where member_email = ?";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1, memberEmail);
+		ResultSet rs = stmt.executeQuery();
+		if(rs.next()) {
+			member = new Member();
+			member.setMemberEmail(rs.getString("member_email"));
+			member.setMemberPw(rs.getString("member_pw"));
+			member.setMemberName(rs.getString("member_name"));
+			member.setMemberDate(rs.getString("member_date"));
+		}
+		conn.close();
+		return member;
+	}
+ }
+

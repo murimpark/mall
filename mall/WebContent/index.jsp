@@ -17,50 +17,13 @@
 %>
 <body>
 	<div class="container">
-		<div>
-			<!-- 최상단 검색바 -->
-			<div class="row">
-				<div class="col"><h3>Goodee Shop</h3></div>
-				<div class="col">
-					<form>
-						<input type="text">
-						<button type="submit" class="btn btn-secondary">검색</button>
-					</form>
-				</div>
-				<div class="col">
-					<i class='fas fa-user-alt' style='font-size: 48px'></i> <i
-						class='fas fa-shopping-cart' style='font-size: 48px'></i>
-				</div>
-			</div>
-		</div>
-
-		<div>
-			<!-- 로그인/회원가입 메뉴바 -->
-			<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-			<%
-				if(session.getAttribute("loginMemberEmail") == null) {
-			%>
-				
-				<!-- Links -->
-				<ul class="navbar-nav">  <!-- 로그아웃 상태 -->
-					<li class="nav-item"><a class="nav-link" href="<%=request.getContextPath() %>/login.jsp">로그인</a></li>
-					<li class="nav-item"><a class="nav-link" href="<%=request.getContextPath() %>/member/signUp.jsp">회원가입</a></li>
-				</ul>
-				<%
-					}
-				else {	
-				%>
-				<ul class="navbar-nav">  <!-- 로그인 상태 -->
-					<li class="nav-item"><a class="nav-link" href="<%=request.getContextPath() %>/logoutAction.jsp">로그아웃</a></li>
-					<li class="nav-item"><a class="nav-link" href="<%=request.getContextPath() %>/orders/myOrdersList.jsp">주문 정보</a></li>
-					<li class="nav-item text-muted"><%=session.getAttribute("loginMemberEmail") %>님 반갑습니다.</li>
-				</ul>
-				<%
-					}
-				%>
-			</nav>
-		</div>
-
+	<div>
+		<jsp:include page="/inc/menu.jsp"></jsp:include>
+	</div>
+	<div>
+	이 페이지는 사용자 홈쇼핑 페이지입니다.
+	추가해야할 목록 1. 회원 수정, 탈퇴 추가  2. 디자인 전면 수정 3. 검색 추가 4. 페이징 추가 5. 주석 삽입
+	</div>
 		<div>
 			<!-- 전체카테고리3 / 이미지 배너9 -->
 			<div class="row">
@@ -70,7 +33,7 @@
 						<%
 							for (Category c : categoryList1) {
 						%>
-						<a href="" class="btn btn-secondary"><%=c.getCategoryName()%></a>
+							<a href="<%=request.getContextPath()%>/product/productList.jsp?categoryId=<%=c.getCategoryId()%>" class="btn btn-secondary"><%=c.getCategoryName()%></a>
 						<%
 							}
 						%>
@@ -115,8 +78,8 @@
 			<%
 				for (Category c : categoryList2) {
 			%>
-			<a href="">
-				<img src="<%=request.getContextPath()%>/image/<%=c.getCategoryPic()%>" class="rounded-circle" width="200" height="200">
+			<a href="<%=request.getContextPath()%>/product/productList.jsp?categoryId=<%=c.getCategoryId() %>">
+				<img src="<%=request.getContextPath()%>/image/ogu.jpg" class="rounded-circle" width="200" height="200">
 			</a>
 			<%
 				}
@@ -136,7 +99,7 @@
 				<%
 					for (Category c : categoryList1) {
 				%>
-				 <a class="btn btn-secondary" href="<%=request.getContextPath() %>/index.jsp?categoryId=<%=c.getCategoryId()%>">[<%=c.getCategoryName()%>]</a>	
+				 	<a class="btn btn-secondary" href="<%=request.getContextPath() %>/index.jsp?categoryId=<%=c.getCategoryId()%>">[<%=c.getCategoryName()%>]</a>	
 				<%
 					}
 				%>
@@ -145,7 +108,17 @@
 
 		<%
 		ProductDao productDao = new ProductDao();
-		ArrayList<Product> productList = productDao.selectProductList();
+		ArrayList<Product> productList = null;
+		int categoryId = -1;
+		if(request.getParameter("categoryId") != null){ // 카테고리 id가 채워져있을때 
+			categoryId = Integer.parseInt(request.getParameter("categoryId"));
+		}
+		
+		if(categoryId==-1) {
+			productList = productDao.selectProductList();
+		} else {
+			productList = productDao.selectProductListByCategoryId(categoryId);
+		}
 		%>
 		<!-- 상품 목록 6개 -->
 		<table class="table">
